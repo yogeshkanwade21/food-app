@@ -3,7 +3,7 @@ import RestaurantCard from './RestaurantCard';
 import {Swiggy_API_URL} from '../config';
 
 function filterData(searchText, allRestaurants) {
-  const filterData = allRestaurants.filter((restaurant)=> restaurant.info.name.includes(searchText));
+  const filterData = allRestaurants.filter((restaurant)=> restaurant?.info?.name?.toLowerCase()?.includes(searchText.toLowerCase()));
   return filterData;
 }
 
