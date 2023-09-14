@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import RestaurantCard from './RestaurantCard';
 import {Swiggy_API_URL} from '../config';
+import Shimmer from './Shimmer';
 
 function filterData(searchText, allRestaurants) {
-  const filterData = allRestaurants.filter((restaurant)=> restaurant?.info?.name?.toLowerCase()?.includes(searchText.toLowerCase()));
+  const filterData = allRestaurants?.filter((restaurant)=> restaurant?.info?.name?.toLowerCase()?.includes(searchText.toLowerCase()));
   return filterData;
 }
 
@@ -31,11 +32,9 @@ const Body = () => {
     setFilteredRestaurants(JSON_Data?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
   }
 
-  if (filteredRestaurants?.length === 0) {
-    return <h1> No Restaurant Found </h1>;
-  }
-
-    return (
+    return allRestaurants?.length === 0 ?(
+      <Shimmer />
+    ) : (
       <>
       <div className="search-container">
         <input
@@ -58,14 +57,15 @@ const Body = () => {
         </button>
       </div>
         <div className='restaurant-card-view'>
-          {filteredRestaurants?.map((restaurant) =>{
-            return (
-              <RestaurantCard
-              key= {restaurant.info.id}
-              {...restaurant.info}
-              />
-            );
-          })}
+          {filteredRestaurants?.length === 0 ? (<div><h3>No Results Found</h3></div>) :
+            filteredRestaurants?.map((restaurant) =>{
+              return (
+                <RestaurantCard
+                  key= {restaurant.info.id}
+                  {...restaurant.info}
+                />
+              );
+            })}
         </div>
       </>
     );
